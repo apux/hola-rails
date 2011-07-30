@@ -7,13 +7,17 @@ gem 'rails', '3.1.0.rc5'
 
 gem 'sqlite3'
 
-# Asset template engines
-# gem 'json'
-# gem 'sass-rails', "~> 3.1.0.rc"
-# gem 'coffee-script'
-# gem 'uglifier'
+#gem 'json'
 
-# gem 'jquery-rails'
+## Gems used only for assets and not required
+## in production environments by default.
+#group :assets do
+#  gem 'sass-rails', "~> 3.1.0.rc"
+#  gem 'coffee-rails', "~> 3.1.0.rc"
+#  gem 'uglifier'
+#end
+
+#gem 'jquery-rails'
 
 # Use unicorn as the web server
 # gem 'unicorn'

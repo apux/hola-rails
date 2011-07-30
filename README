@@ -5,7 +5,7 @@ para trabajar en Español.
 
 Por medio de inflections se modifica la forma en la que rails "pluraliza" y
 "singulariza" los nombres. Esto permite tener los nombres de los modelos y
-los nombres de las tablas de las bases de datos en español.
+de las tablas de las bases de datos en español.
 
 Se incluyen algunos ejemplos a problemas comunes que se pueden encontrar al
 tratar de realizar estas traducciones.
