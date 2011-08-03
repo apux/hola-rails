@@ -1,6 +1,6 @@
 == Hola Rails
 
-hola-rails es un proyecto base en Rails 3 que incluye algunas modificaciones
+hola-rails es un proyecto base en Rails 3.1 que incluye algunas modificaciones
 para trabajar en Español.
 
 Por medio de inflections se modifica la forma en la que rails "pluraliza" y
