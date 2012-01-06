@@ -25,7 +25,7 @@ ActiveSupport::Inflector.inflections do |inflect|
   inflect.plural(/([aeiou])([A-Z]|_|$)/, '\1s\2')
   # Las reglas anteriores funcionan incluso cuando son palabras compuestas por
   # dos o más palabras, siempre y cuando, todas sean del mismo tipo, es decir, que
-  # ambas termien con r, n, d o l, o bien, que ambas terminen en vocal; por
+  # ambas terminen con r, n, d o l, o bien, que ambas terminen en vocal; por
   # ejemplo "doctor_operacion", o "libro_revista", serán pluralizadas correctamente 
   # a "doctores_operaciones" y "libros_revistas" respectivamente.
   # Sin embargo, si las palabras no son del mismo tipo, la pluralización no
@@ -46,9 +46,9 @@ ActiveSupport::Inflector.inflections do |inflect|
   # se agrega "es"
   inflect.plural(/(z)$/i, 'ces')
 
-  # Rails incluye una regla para obtener el plural de las palabas que 
+  # Rails incluye una regla para obtener el plural de las palablas que 
   # terminan en "um" cambiando el final por "ia", por ejemplo, medium => media
-  # De igual forma, al obtener el singlular de palabras que terminan con "ia", 
+  # De igual forma, al obtener el singular de palabras que terminan con "ia", 
   # convierte el final en "um", ejemplo, media => medium.
   # En español no se trabaja con esa regla, por lo que se indica al
   # inflection que las palabras que terminen con "ia" ya están en singular. Así,
@@ -77,9 +77,11 @@ ActiveSupport::Inflector.inflections do |inflect|
 
   # De manera similar al caso de pluralización, se necesitan las reglas adicionales 
   # para permitir que palabras compuestas puedan ser singularizadas de manera correcta.
-  
   inflect.singular(/([aeiou])s([A-Z]|_)([a-z]+)([rndl])es([A-Z]|_|$)/, '\1\2\3\4\5')
   inflect.singular(/([rndl])es([A-Z]|_)([a-z]+)([aeiou])s([A-Z]|_|$)/, '\1\2\3\4\5')
+
+  # Para singularizar palabras con 'ces', como 'maices'
+  inflect.singular(/ces$/, 'z')
   
   #################################################################################
   # Ejemplos de términos irregulares.
