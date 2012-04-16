@@ -83,8 +83,8 @@ ActiveSupport::Inflector.inflections do |inflect|
   # De manera similar al caso de pluralización, se necesitan las reglas 
   # adicionales para permitir que palabras compuestas puedan ser singularizadas 
   # de manera correcta.
-  inflect.singular(/([aeiou])s([A-Z]|_)([a-z]+)([rndl])es([A-Z]|_|$)/, '\1\2\3\4\5')
-  inflect.singular(/([rndl])es([A-Z]|_)([a-z]+)([aeiou])s([A-Z]|_|$)/, '\1\2\3\4\5')
+  inflect.singular(/([aeiou])s([A-Z]|_)([a-z]+)([aeiou][rndl])es([A-Z]|_|$)/, '\1\2\3\4\5')
+  inflect.singular(/([aeiou][rndl])es([A-Z]|_)([a-z]+)([aeiou])s([A-Z]|_|$)/, '\1\2\3\4\5')
 
   # Para singularizar palabras con 'ces', como 'maices'
   inflect.singular(/ces$/, 'z')
