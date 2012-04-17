@@ -81,14 +81,15 @@ ActiveSupport::Inflector.inflections do |inflect|
   # ya que si las introducimos en orden inverso, rails ejecuta primero la 
   # última que encuentra, haciendo que "doctores" cumpla con ella, y 
   # singularizando de manera errónea a "doctore"
+  str = /(?<!an|ar|ad|al|er|en|ed|el|ir|in|id|il|or|on|od|ol|ur|un|ud|ul)/
   inflect.singular(/([aeiou][rndl])es([A-Z]|_|$)/, '\1\2')
-  inflect.singular(/((?<!an)(?<!ar)(?<!ad)(?<!al)(?<!er)(?<!en)(?<!ed)(?<!el)(?<!ir)(?<!in)(?<!id)(?<!il)(?<!or)(?<!on)(?<!od)(?<!ol)(?<!ur)(?<!un)(?<!ud)(?<!ul)[aeiou])s([A-Z]|_|$)/, '\1\2')
+  inflect.singular(/(#{str}[aeiou])s([A-Z]|_|$)/, '\1\2')
 
   # De manera similar al caso de pluralización, se necesitan las reglas 
   # adicionales para permitir que palabras compuestas puedan ser singularizadas 
   # de manera correcta.
-  inflect.singular(/((?<!an)(?<!ar)(?<!ad)(?<!al)(?<!er)(?<!en)(?<!ed)(?<!el)(?<!ir)(?<!in)(?<!id)(?<!il)(?<!or)(?<!on)(?<!od)(?<!ol)(?<!ur)(?<!un)(?<!ud)(?<!ul)[aeiou])s([A-Z]|_)([a-z]+)([aeiou][rndl])es([A-Z]|_|$)/, '\1\2\3\4\5')
-  inflect.singular(/([aeiou][rndl])es([A-Z]|_)([a-z]+)((?<!an)(?<!ar)(?<!ad)(?<!al)(?<!er)(?<!en)(?<!ed)(?<!el)(?<!ir)(?<!in)(?<!id)(?<!il)(?<!or)(?<!on)(?<!od)(?<!ol)(?<!ur)(?<!un)(?<!ud)(?<!ul)[aeiou])s([A-Z]|_|$)/, '\1\2\3\4\5')
+  inflect.singular(/(#{str}[aeiou])s([A-Z]|_)([a-z]+)([aeiou][rndl])es([A-Z]|_|$)/, '\1\2\3\4\5')
+  inflect.singular(/([aeiou][rndl])es([A-Z]|_)([a-z]+)(#{str}[aeiou])s([A-Z]|_|$)/, '\1\2\3\4\5')
 
   # Para singularizar palabras con 'ces', como 'maices'
   inflect.singular(/ces$/, 'z')
