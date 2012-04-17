@@ -16,13 +16,17 @@ ActiveSupport::Inflector.inflections do |inflect|
   # pretende contemplar todas las posibilidades, sólo las más comunes.
   ############################################################################
   
-  # Para formar correctamente el plural de palabras como doctor => doctores, 
-  # camion => camiones, universidad => universidades, pastel => pasteles (de 
-  # otra forma, se obtendrían como doctors, camions, universidads y pastels).
-  # Las palabras que terminen con r, n, d, l se convierten a plural agregando 
-  # "es". (Podríamos decir que una palabra 'termina', si delante de ella no 
-  # hay nada más, o bien, si lo que sigue es otra palabra (en modo camelcase 
-  # o underscore).
+  # La regla básica en Español es que el plural de las palabras terminadas 
+  # en vocal se obtiene agregándole una 's' al final.
+  # Sin embargo, para formar correctamente el plural de palabras como 
+  # doctor => doctores, camion => camiones, universidad => universidades, 
+  # pastel => pasteles, se aplica otra regla: las palabras que terminen 
+  # con r, n, d, l se convierten a plural agregando "es", de otra forma, 
+  # el plural se obtendrían como doctors, camions, universidads y pastels.
+  # Ahora bien, para las palabras compuestas, esto también debe ser válido. Es
+  # decir, se deben convertir a plural todas las palabras que la compongan. 
+  # También hay que tomar en cuenta que las palabras compuestas pueden estar 
+  # como 'underscore' o como 'camelcase'.
   inflect.plural(/([rndl])([A-Z]|_|$)/, '\1es\2')
   inflect.plural(/([aeiou])([A-Z]|_|$)/, '\1s\2')
   # Las reglas anteriores funcionan incluso cuando son palabras compuestas por
@@ -77,14 +81,14 @@ ActiveSupport::Inflector.inflections do |inflect|
   # ya que si las introducimos en orden inverso, rails ejecuta primero la 
   # última que encuentra, haciendo que "doctores" cumpla con ella, y 
   # singularizando de manera errónea a "doctore"
-  inflect.singular(/([aeiou])s([A-Z]|_|$)/, '\1\2')
   inflect.singular(/([aeiou][rndl])es([A-Z]|_|$)/, '\1\2')
+  inflect.singular(/((?<!an)(?<!ar)(?<!ad)(?<!al)(?<!er)(?<!en)(?<!ed)(?<!el)(?<!ir)(?<!in)(?<!id)(?<!il)(?<!or)(?<!on)(?<!od)(?<!ol)(?<!ur)(?<!un)(?<!ud)(?<!ul)[aeiou])s([A-Z]|_|$)/, '\1\2')
 
   # De manera similar al caso de pluralización, se necesitan las reglas 
   # adicionales para permitir que palabras compuestas puedan ser singularizadas 
   # de manera correcta.
-  inflect.singular(/([aeiou])s([A-Z]|_)([a-z]+)([aeiou][rndl])es([A-Z]|_|$)/, '\1\2\3\4\5')
-  inflect.singular(/([aeiou][rndl])es([A-Z]|_)([a-z]+)([aeiou])s([A-Z]|_|$)/, '\1\2\3\4\5')
+  inflect.singular(/((?<!an)(?<!ar)(?<!ad)(?<!al)(?<!er)(?<!en)(?<!ed)(?<!el)(?<!ir)(?<!in)(?<!id)(?<!il)(?<!or)(?<!on)(?<!od)(?<!ol)(?<!ur)(?<!un)(?<!ud)(?<!ul)[aeiou])s([A-Z]|_)([a-z]+)([aeiou][rndl])es([A-Z]|_|$)/, '\1\2\3\4\5')
+  inflect.singular(/([aeiou][rndl])es([A-Z]|_)([a-z]+)((?<!an)(?<!ar)(?<!ad)(?<!al)(?<!er)(?<!en)(?<!ed)(?<!el)(?<!ir)(?<!in)(?<!id)(?<!il)(?<!or)(?<!on)(?<!od)(?<!ol)(?<!ur)(?<!un)(?<!ud)(?<!ul)[aeiou])s([A-Z]|_|$)/, '\1\2\3\4\5')
 
   # Para singularizar palabras con 'ces', como 'maices'
   inflect.singular(/ces$/, 'z')

@@ -35,14 +35,14 @@ class InflectionsTest < ActiveSupport::TestCase
     assert_equal "universidad_bondad_verdad".pluralize, 'universidades_bondades_verdades'
   end
 
-  test "debe pluralizar nombres compuestos de dos palabras, la primera terminada en vocal y la segunda en n, r, l, t o d" do
+  test "debe pluralizar nombres compuestos de dos palabras, la primera terminada en vocal y la segunda en n, r, l o d" do
     assert_equal "nombre_camion".pluralize, 'nombres_camiones'
     assert_equal "nombre_doctor".pluralize, 'nombres_doctores'
     assert_equal "nombre_hospital".pluralize, 'nombres_hospitales'
     assert_equal "nombre_universidad".pluralize, 'nombres_universidades'
   end
   
-  test "debe plularizar nombres compuestos de dos palabras, la primera terminada en n, r, l, t o d, y la segunda terminada en vocal" do
+  test "debe plularizar nombres compuestos de dos palabras, la primera terminada en n, r, l o d, y la segunda terminada en vocal" do
     assert_equal "camion_nombre".pluralize, 'camiones_nombres'
     assert_equal "doctor_nombre".pluralize, 'doctores_nombres'
     assert_equal "hospital_nombre".pluralize, 'hospitales_nombres'
@@ -94,14 +94,11 @@ class InflectionsTest < ActiveSupport::TestCase
   end
 
   test "debe singularizar nombres compuestos de dos y tres palabras terminadas en vocal seguido de una s" do
-    skip 'Todavía no pasan estas pruebas'
     assert_equal "sillas_grandes".singularize, 'silla_grande'
     assert_equal "sillas_blancas_grandes".singularize, 'silla_blanca_grande'
   end
 
   test "debe singularizar nombres compuestos de dos y tres palabras terminadas en nes, res, les o des" do
-    skip 'Todavía no pasan estas pruebas'
-
     assert_equal "sillones_panes".singularize, 'sillon_pan'
     assert_equal "doctores_dolores".singularize, 'doctor_dolor'
     assert_equal "hospitales_normales".singularize, 'hospital_normal'
@@ -113,4 +110,17 @@ class InflectionsTest < ActiveSupport::TestCase
     assert_equal "universidades_bondades_verdades".singularize, 'universidad_bondad_verdad'
   end
 
+  test "debe singularizar nombres compuestos de dos palabras, la primera terminada en vocal + s y la segunda en nes, res, les o  des" do
+    assert_equal "nombres_camiones".singularize, 'nombre_camion'
+    assert_equal "nombres_doctores".singularize, 'nombre_doctor'
+    assert_equal "nombres_hospitales".singularize, 'nombre_hospital'
+    assert_equal "nombres_universidades".singularize, 'nombre_universidad'
+  end
+  
+  test "debe singularizar nombres compuestos de dos palabras, la primera terminada en nes, res, les o des, y la segunda terminada en vocal + s" do
+    assert_equal "camiones_nombres".singularize, 'camion_nombre'
+    assert_equal "doctores_nombres".singularize, 'doctor_nombre'
+    assert_equal "hospitales_nombres".singularize, 'hospital_nombre'
+    assert_equal "universidades_nombres".singularize, 'universidad_nombre'
+  end
 end
