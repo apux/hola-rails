@@ -82,8 +82,9 @@ ActiveSupport::Inflector.inflections do |inflect|
   # última que encuentra, haciendo que "doctores" cumpla con ella, y 
   # singularizando de manera errónea a "doctore"
   str = /(?<!an|ar|ad|al|er|en|ed|el|ir|in|id|il|or|on|od|ol|ur|un|ud|ul)/
+  str2 = /(#{str}e|[aiou])s/
   inflect.singular(/([aeiou][rndl])es([A-Z]|_|$)/, '\1\2')
-  inflect.singular(/(#{str}[aeiou])s([A-Z]|_|$)/, '\1\2')
+  inflect.singular(/(#{str2}([A-Z]|_|$)/, '\1\2')
 
   # De manera similar al caso de pluralización, se necesitan las reglas 
   # adicionales para permitir que palabras compuestas puedan ser singularizadas 
