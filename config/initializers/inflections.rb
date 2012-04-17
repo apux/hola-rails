@@ -83,19 +83,23 @@ ActiveSupport::Inflector.inflections do |inflect|
   # ya que si las introducimos en orden inverso, rails ejecuta primero la 
   # última que encuentra, haciendo que "doctores" cumpla con ella, y 
   # singularizando de manera errónea a "doctore"
-  str = /(?<![aeiou][nrdl])/
-  inflect.singular(/([aeiou][rndl])es([A-Z]|_|$)/, '\1\2')
-  inflect.singular(/(#{str}[aeiou])s([A-Z]|_|$)/, '\1\2')
+  r_final_palabra_rndl = /([aeiou][rndl])es([A-Z]|_|$)/
+  r_final_palabra_vocal = /((?<![aeiou][nrdl])[aeiou])s([A-Z]|_|$)/
+
+  inflect.singular(r_final_palabra_rndl, '\1\2')
+  inflect.singular(r_final_palabra_vocal, '\1\2')
 
   # De manera similar al caso de pluralización, se necesitan las reglas 
   # adicionales para permitir que palabras compuestas puedan ser singularizadas 
   # de manera correcta.
   inflect.singular(
-    /(#{str}[aeiou])s([A-Z]|_)([a-z]+)([aeiou][rndl])es([A-Z]|_|$)/, 
-    '\1\2\3\4\5')
+    /#{r_final_palabra_rndl}([a-z]+)#{r_final_palabra_vocal}/, 
+    '\1\2\3\4\5'
+  )
   inflect.singular(
-    /([aeiou][rndl])es([A-Z]|_)([a-z]+)(#{str}[aeiou])s([A-Z]|_|$)/, 
-    '\1\2\3\4\5')
+    /#{r_final_palabra_vocal}([a-z]+)#{r_final_palabra_rndl}/, 
+    '\1\2\3\4\5'
+  )
 
   # Para singularizar palabras con 'ces', como 'maices'
   inflect.singular(/ces$/, 'z')
@@ -111,16 +115,17 @@ ActiveSupport::Inflector.inflections do |inflect|
   # También es necesario indicar que es irregular, para que al pluralizar y 
   # ingularizar lo haga correctamente.
   inflect.irregular 'pais', 'paises'
-  # NOTA: el orden de estas dos reglas es importante, ya que si se invierten, rails 
-  # ejecutaría primero la regla para singularizar, y dado que en 'paises' encuentra 
-  # el patrón 'pais', realiza la sustición para pasarlo a singular, dando como
-  # resultado que el singular de 'paises' sea, erróneamente, 'paises'
+  # NOTA: el orden de estas dos reglas es importante, ya que si se invierten, 
+  # rails ejecutaría primero la regla para singularizar, y dado que en 'paises'
+  # encuentra el patrón 'pais', realiza la sustición para pasarlo a singular, 
+  # dando como resultado que el singular de 'paises' sea, erróneamente, 
+  # 'paises'
 
   # En ocasiones, quisiéramos aplicar reglas específicas que no cumplen con las
   # generales. Por ejemplo, si a estas alturas tratamos de obtener el plural de
-  # "hermano_de_sangre", el resultado sería "hermanos_des_sangres", así que, para
-  # estos casos, es necesario agregar reglas para indicar estos comportamientos
-  # 'irregulares'.
+  # "hermano_de_sangre", el resultado sería "hermanos_des_sangres", así que, 
+  # para estos casos, es necesario agregar reglas para indicar estos 
+  # comportamientos 'irregulares'.
   inflect.irregular 'hermano_de_sangre', 'hermanos_de_sangre'
   inflect.irregular 'HermanoDeSangre', 'HermanosDeSangre'
   # NOTA: es necesario indicar los dos modos (underscore y camelcase) porque el 
@@ -139,12 +144,12 @@ ActiveSupport::Inflector.inflections do |inflect|
   # manera:
   # inflect.singular /([Cc])(alificacion)(_m|M)(atematicas)/, '\1\2\3\4'
 
-  #################################################################################
+  ############################################################################
   # Ejemplos cuyo plural y singular sea el mismo
-  #################################################################################
+  ############################################################################
   inflect.uncountable %w( campus lunes martes miercoles jueves viernes )
-  # NOTA: Si genera recursos restful-like (en routes) con estos nombres, verifique
-  # los métodos que se generan, ya que cambian un poco del estándar, por ejemplo, 
-  # el index de campus lo encontramos en campus_index_path en lugar de 
-  # campus_path, ya que este último se utilizaría para show
+  # NOTA: Si genera recursos restful-like (en routes) con estos nombres, 
+  # verifique los métodos que se generan, ya que cambian un poco del estándar, 
+  # por ejemplo, el index de campus lo encontramos en campus_index_path en 
+  # lugar de campus_path, ya que este último se utilizaría para show.
 end
