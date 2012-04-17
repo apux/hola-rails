@@ -64,18 +64,25 @@ class InflectionsTest < ActiveSupport::TestCase
     assert_equal "universidad_hospital".pluralize, 'universidades_hospitales'
   end
 
-  test 'debe pluralizar nombres compuestos de 3 o más palabras combinadas terminadas en vocales, n, r, l, o d' do
-    skip 'Todavía no pasan estas pruebas, se intenta que pasen específicamente para 1.9'
-
-    assert_equal "camion_grande_doctor_hospital".pluralize, 'camiones_grandes_doctores_hospitales'
-    assert_equal "universidad_grande_importante_funcionalidad".pluralize, 'universidades_grandes_importantes_funcionalidades'
-    
+  test 'debe pluralizar casos especiales' do
+    assert_equal 'pais'.pluralize, 'paises'
+    assert_equal 'maiz'.pluralize, 'maices'
+    assert_equal 'hermano_de_sangre'.pluralize, 'hermanos_de_sangre'
+    assert_equal 'calificacion_matematicas'.pluralize, 'calificaciones_matematicas'
   end
 
   test 'no debe pluralizar palabras que ya estén en plural' do
     assert_equal 'camiones'.pluralize, 'camiones'
     assert_equal 'camiones_grandes'.pluralize, 'camiones_grandes'
     assert_equal 'universidades_hospitales_doctores'.pluralize, 'universidades_hospitales_doctores'
+    assert_equal 'paises'.pluralize, 'paises'
+  end
+
+  test 'debe pluralizar nombres compuestos de 3 o más palabras combinadas terminadas en vocales, n, r, l, o d' do
+    skip 'Todavía no pasan estas pruebas, se intenta que pasen específicamente para 1.9'
+
+    assert_equal "camion_grande_doctor_hospital".pluralize, 'camiones_grandes_doctores_hospitales'
+    assert_equal "universidad_grande_importante_funcionalidad".pluralize, 'universidades_grandes_importantes_funcionalidades'
   end
 
   #########################################################
@@ -123,4 +130,35 @@ class InflectionsTest < ActiveSupport::TestCase
     assert_equal "hospitales_nombres".singularize, 'hospital_nombre'
     assert_equal "universidades_nombres".singularize, 'universidad_nombre'
   end
+
+  test "debe singularizar nombres compuestos de dos palabras combinadas terminadas en n, r, l, o d" do
+    assert_equal "camiones_doctores".singularize, 'camion_doctor'
+    assert_equal "camiones_hospitales".singularize, 'camion_hospital'
+    assert_equal "camiones_universidades".singularize, 'camion_universidad'
+    assert_equal "doctores_camion".singularize, 'doctor_camion'
+    assert_equal "doctores_hospitales".singularize, 'doctor_hospital'
+    assert_equal "doctores_universidades".singularize, 'doctor_universidad'
+    assert_equal "hospitales_camion".singularize, 'hospital_camion'
+    assert_equal "hospitales_doctores".singularize, 'hospital_doctor'
+    assert_equal "hospitales_universidades".singularize, 'hospital_universidad'
+    assert_equal "universidades_camiones".singularize, 'universidad_camion'
+    assert_equal "universidades_doctores".singularize, 'universidad_doctor'
+    assert_equal "universidades_hospitales".singularize, 'universidad_hospital'
+  end
+
+  test 'debe singularizar casos especiales' do
+    assert_equal 'paises'.singularize, 'pais'
+    assert_equal 'maices'.singularize, 'maiz'
+    assert_equal 'hermanos_de_sangre'.singularize, 'hermano_de_sangre'
+    assert_equal 'calificaciones_matematicas'.singularize, 'calificacion_matematicas'
+  end
+
+  test 'no debe singularizar palabras que ya estén en singular' do
+    assert_equal 'camion'.singularize, 'camion'
+    assert_equal 'camion_grande'.singularize, 'camion_grande'
+    assert_equal 'universidad_hospital_doctor'.singularize, 'universidad_hospital_doctor'
+    assert_equal 'pais'.singularize, 'pais'
+    assert_equal 'pais_grande'.singularize, 'pais_grande'
+  end
+
 end

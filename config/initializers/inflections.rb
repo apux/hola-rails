@@ -79,21 +79,17 @@ ActiveSupport::Inflector.inflections do |inflect|
   # Con esto, palabras como "semestres" son procesados por la regla básica de 
   # eliminar la 's', semestres => semestre, pero doctores es procesado por la 
   # nueva regla, doctores => doctor
-  # NOTA: el orden en el que aparecen las siguientes dos reglas es importante,
-  # ya que si las introducimos en orden inverso, rails ejecuta primero la 
-  # última que encuentra, haciendo que "doctores" cumpla con ella, y 
-  # singularizando de manera errónea a "doctore"
-  r_final_plural_rndl = /([aeiou][rndl])es([A-Z]|_|$)/
-  r_final_plural_vocal = /((?<![aeiou][nrdl])[aeiou])s([A-Z]|_|$)/
+  final_plural_rndl = /([aeiou][rndl])es([A-Z]|_|$)/
+  final_plural_vocal = /((?<![aeiou][nrdl])[aeiou])s([A-Z]|_|$)/
 
-  inflect.singular(r_final_plural_rndl, '\1\2')
-  inflect.singular(r_final_plural_vocal, '\1\2')
+  inflect.singular(final_plural_rndl, '\1\2')
+  inflect.singular(final_plural_vocal, '\1\2')
 
   # De manera similar al caso de pluralización, se necesitan las reglas 
   # adicionales para permitir que palabras compuestas puedan ser singularizadas 
   # de manera correcta.
-  palabra_compuesta_1 = /#{r_final_plural_rndl}([a-z]+)#{r_final_plural_vocal}/
-  palabra_compuesta_2 = /#{r_final_plural_vocal}([a-z]+)#{r_final_plural_rndl}/
+  palabra_compuesta_1 = /#{final_plural_rndl}([a-z]+)#{final_plural_vocal}/
+  palabra_compuesta_2 = /#{final_plural_vocal}([a-z]+)#{final_plural_rndl}/
 
   inflect.singular(palabra_compuesta_1, '\1\2\3\4\5')
   inflect.singular(palabra_compuesta_2, '\1\2\3\4\5')
@@ -105,18 +101,14 @@ ActiveSupport::Inflector.inflections do |inflect|
   # Ejemplos de términos irregulares.
   ############################################################################
   
-  # Por ejemplo, pais, es un caso especial, ya que termina en s pero no debe ser 
-  # consierado plural, por lo tanto, se le indica que el singular de 'pais' es 
-  # 'pais' y no 'pai'
-  inflect.singular 'pais', 'pais'
-  # También es necesario indicar que es irregular, para que al pluralizar y 
-  # ingularizar lo haga correctamente.
+  # Las palabras que terminan con s son un caso especial, ya que rails infiere
+  # que ya están en plural, lo cual es falso. Por ejemplo, pais.
+  # Es necesario indicar que el plural de pais es paises y viceversa. Esto se
+  # puede hacer declarándolo como irregular:
   inflect.irregular 'pais', 'paises'
-  # NOTA: el orden de estas dos reglas es importante, ya que si se invierten, 
-  # rails ejecutaría primero la regla para singularizar, y dado que en 'paises'
-  # encuentra el patrón 'pais', realiza la sustición para pasarlo a singular, 
-  # dando como resultado que el singular de 'paises' sea, erróneamente, 
-  # 'paises'
+  # Pero es necesario agregar otra regla. Pais termina en s, pero ya está en
+  # singular, por lo que hay que indicarle a rails que no elimine la s final.
+  inflect.singular /(pais)([A-Z]|_|$)/, '\1\2'
 
   # En ocasiones, quisiéramos aplicar reglas específicas que no cumplen con las
   # generales. Por ejemplo, si a estas alturas tratamos de obtener el plural de
