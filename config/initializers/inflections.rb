@@ -83,23 +83,20 @@ ActiveSupport::Inflector.inflections do |inflect|
   # ya que si las introducimos en orden inverso, rails ejecuta primero la 
   # última que encuentra, haciendo que "doctores" cumpla con ella, y 
   # singularizando de manera errónea a "doctore"
-  r_final_palabra_rndl = /([aeiou][rndl])es([A-Z]|_|$)/
-  r_final_palabra_vocal = /((?<![aeiou][nrdl])[aeiou])s([A-Z]|_|$)/
+  r_final_plural_rndl = /([aeiou][rndl])es([A-Z]|_|$)/
+  r_final_plural_vocal = /((?<![aeiou][nrdl])[aeiou])s([A-Z]|_|$)/
 
-  inflect.singular(r_final_palabra_rndl, '\1\2')
-  inflect.singular(r_final_palabra_vocal, '\1\2')
+  inflect.singular(r_final_plural_rndl, '\1\2')
+  inflect.singular(r_final_plural_vocal, '\1\2')
 
   # De manera similar al caso de pluralización, se necesitan las reglas 
   # adicionales para permitir que palabras compuestas puedan ser singularizadas 
   # de manera correcta.
-  inflect.singular(
-    /#{r_final_palabra_rndl}([a-z]+)#{r_final_palabra_vocal}/, 
-    '\1\2\3\4\5'
-  )
-  inflect.singular(
-    /#{r_final_palabra_vocal}([a-z]+)#{r_final_palabra_rndl}/, 
-    '\1\2\3\4\5'
-  )
+  palabra_compuesta_1 = /#{r_final_plural_rndl}([a-z]+)#{r_final_plural_vocal}/
+  palabra_compuesta_2 = /#{r_final_plural_vocal}([a-z]+)#{r_final_plural_rndl}/
+
+  inflect.singular(palabra_compuesta_1, '\1\2\3\4\5')
+  inflect.singular(palabra_compuesta_2, '\1\2\3\4\5')
 
   # Para singularizar palabras con 'ces', como 'maices'
   inflect.singular(/ces$/, 'z')
