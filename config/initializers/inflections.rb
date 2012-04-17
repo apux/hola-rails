@@ -40,8 +40,10 @@ ActiveSupport::Inflector.inflections do |inflect|
   # "paciente_doctores". Esto sucede porque al pluralizar, rails aplica sólo 
   # una regla y omite las demás.
   # Para soportar palabras compuestas, es necesario agregar otras reglas.
-  inflect.plural(/([aeiou])([A-Z]|_)([a-z]+)([rndl])([A-Z]|_|$)/, '\1s\2\3\4es\5')
-  inflect.plural(/([rndl])([A-Z]|_)([a-z]+)([aeiou])([A-Z]|_|$)/, '\1es\2\3\4s\5')
+  inflect.plural(/([aeiou])([A-Z]|_)([a-z]+)([rndl])([A-Z]|_|$)/, 
+                 '\1s\2\3\4es\5')
+  inflect.plural(/([rndl])([A-Z]|_)([a-z]+)([aeiou])([A-Z]|_|$)/, 
+                 '\1es\2\3\4s\5')
   # Con estas reglas, ya se pueden traducir correctamente las palabras compuestas
   # de dos palabras aunque no sean del mismo tipo.
   # Se pueden agregar, de la misma manera, reglas para cuando se trate de tres
@@ -81,16 +83,19 @@ ActiveSupport::Inflector.inflections do |inflect|
   # ya que si las introducimos en orden inverso, rails ejecuta primero la 
   # última que encuentra, haciendo que "doctores" cumpla con ella, y 
   # singularizando de manera errónea a "doctore"
-  str = /(?<!an|ar|ad|al|er|en|ed|el|ir|in|id|il|or|on|od|ol|ur|un|ud|ul)/
-  str2 = /(#{str}e|[aiou])s/
+  str = /(?<![aeiou][nrdl])/
   inflect.singular(/([aeiou][rndl])es([A-Z]|_|$)/, '\1\2')
-  inflect.singular(/(#{str2}([A-Z]|_|$)/, '\1\2')
+  inflect.singular(/(#{str}[aeiou])s([A-Z]|_|$)/, '\1\2')
 
   # De manera similar al caso de pluralización, se necesitan las reglas 
   # adicionales para permitir que palabras compuestas puedan ser singularizadas 
   # de manera correcta.
-  inflect.singular(/(#{str}[aeiou])s([A-Z]|_)([a-z]+)([aeiou][rndl])es([A-Z]|_|$)/, '\1\2\3\4\5')
-  inflect.singular(/([aeiou][rndl])es([A-Z]|_)([a-z]+)(#{str}[aeiou])s([A-Z]|_|$)/, '\1\2\3\4\5')
+  inflect.singular(
+    /(#{str}[aeiou])s([A-Z]|_)([a-z]+)([aeiou][rndl])es([A-Z]|_|$)/, 
+    '\1\2\3\4\5')
+  inflect.singular(
+    /([aeiou][rndl])es([A-Z]|_)([a-z]+)(#{str}[aeiou])s([A-Z]|_|$)/, 
+    '\1\2\3\4\5')
 
   # Para singularizar palabras con 'ces', como 'maices'
   inflect.singular(/ces$/, 'z')
