@@ -3,8 +3,4 @@
 
 <%%= render 'form' %>
 
-<%- if options.cancan? -%>
-<%%= link_to 'Listado', <%= index_helper %>_path if can? :read, <%= singular_table_name.camelize %> %>
-<%- else -%>
 <%%= link_to 'Listado', <%= index_helper %>_path %>
-<%- end -%>
