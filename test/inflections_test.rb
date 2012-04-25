@@ -79,7 +79,7 @@ class InflectionsTest < ActiveSupport::TestCase
   end
 
   #########################################################
-  # Sección que prueba las conversiones al plural
+  # Sección que prueba las conversiones al singular
   #########################################################
 
   test "debe singularizar nombres terminados en vocal seguido de una s" do
